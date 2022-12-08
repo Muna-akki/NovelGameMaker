@@ -30,13 +30,12 @@ def main():
             cap_data.update_image()                                         # カメラからの入力を次のフレームへ進める
             voice_data.get_message_data(output_data)                        # 音声認識結果を取得
             face_data.search_face(cap_data, output_data)                    # 画像から顔認識
-            hand_data.execute_hand_detection(cap_data, output_data)         # 画像から手を認識
+            
 
-            # 以下の処理は重たいのでcountが10になるごとに行う
-            # もし重さが気になるならhand_data.execute_hand_detection()の行もifの中に入れる
-            # 逆に、気にならないならface_data.emotion_analyze()の行をifの外に出す
+            # 以下の処理は重たく、また全フレームでの処理が不要なのでcountが10になるごとに行う
             if count==10:
-                count = 0                                               
+                count = 0             
+                hand_data.execute_hand_detection(cap_data, output_data)     # 画像から手を認識                                  
                 face_data.emotion_analyze(cap_data, output_data)            # 画像から表情を認識
             else:
                 count += 1
